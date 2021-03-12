@@ -173,9 +173,11 @@ int max_in_array(int *arr, int n) {
   /* YOUR CODE HERE */
   int max = 0;
   for(int i=0;i<n;i++){
-    if(arr[])
+    if(arr[i]>max) {
+      max = arr[i];
+    }
   }
-  return 0;
+  return max;
 }
 
 /*
@@ -184,5 +186,10 @@ int max_in_array(int *arr, int n) {
  */
 int my_strlen(char *str) {
   /* YOUR CODE HERE */
-  return 0;
+  int terminated = 0;
+  int i = 0;
+  while(str[i]!='\0') {
+    i++;
+  }
+  return i;
 }
