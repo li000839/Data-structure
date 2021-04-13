@@ -8,7 +8,7 @@ findCableTotal(struct graph *g, int startPoint) {
     struct pq *PriorityQueue = *newPQ();
     int **queue[总共有多少点][总共有多少点] = ;
     int bestPath[总共有多少点] = ;
-    // 从起点开始
+    // 从起点开始 
 
     // 优先序列是挑选下一个点的工具， 用优先序列挑选下一个点
         // 把所有点加入优先序列,直到queue的每一行都被移除/bestpath==总点数,每一轮
