@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char **argv){
     int studentID;
@@ -8,17 +9,19 @@ int main(int argc, char **argv){
     printf("Enter the Student IDs for the class list, followed an empty line:\n");
 
     int num_item = 0;
-    while(scanf("%d\n", studentID) != EOF) {
+    while(scanf("%d", &studentID) != EOF) {
+        class_list[num_item] = studentID;
         num_item++;
+        
         if(num_item == current_length) {
             current_length *= 2;
         }
     }
     
     printf("The IDs for the students in the class are:\n");
-    for(int i=0;i<current_length;i++) {
-        printf("%d", class_list[current_length]);
-        if(i != current_length) {
+    for(int i=0;i<num_item;i++) {
+        printf("%d", class_list[i]);
+        if(i != num_item) {
             printf(", ");
         }
     }
