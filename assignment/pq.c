@@ -47,8 +47,8 @@ void enqueue(struct pq *pq, void *item, int priority){
     assert(pq->priorities);
   }
   /* insert */
-  (pq->queue)[pq->count] = item; // 一个点的一列[count]相邻点
-  (pq->priorities)[pq->count] = priority; // 从上一个点到相邻点[count]的费用
+  (pq->queue)[pq->count] = item; // 一个点的所有边
+  (pq->priorities)[pq->count] = priority; // 一个点的所有边，其中的最短距离
   (pq->count)++;
 }
 
