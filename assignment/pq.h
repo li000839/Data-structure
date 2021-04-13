@@ -15,7 +15,7 @@ struct pq *newPQ();
    item is next vertex that will be visited.
    priority is distance from origin to the next vertex that will be visited. 
 */
-void enqueue(struct pq *pq, void *item, int priority);
+void enqueue(struct pq *pq, struct edge **edgeList, int priority);
 
 /* Take the smallest item from the priority queue - cast pointer back to
   original type. */

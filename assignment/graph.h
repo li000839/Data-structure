@@ -7,7 +7,18 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 */
 
 /* Definition of a graph. */
-struct graph;
+struct edge {
+  int start;
+  int end;
+  int cost;
+};
+
+struct graph {
+  int numVertices;
+  int numEdges;
+  int allocedEdges;
+  struct edge **edgeList;
+};
 
 enum problemPart;
 
