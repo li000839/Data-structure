@@ -7,9 +7,14 @@
 
 int
 findCableTotal(struct graph *g, int start) {
-    
-    int pre = start;
+    struct pq *PriorityQueue = newPQ();
+    PriorityQueue = initPQ(g);
+    dijkstra(g, start, PriorityQueue);
     return;
+}
+
+dijkstra(struct graph *g, int start, struct pq *PriorityQueue) {
+    
 }
 
 struct pq 
