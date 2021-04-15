@@ -13,16 +13,11 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 
 #define INITIALITEMS 32
 
-struct element {
-  int distance;
-  int prev;
-};
-
 struct pq {
   int count;       // length of pq
   int allocated;   // to increase size of pq, no other function
-  struct element **queue;    // a list of structs of element with distance and prev vertex
-  int *priorities; // distance from prev to all possible next
+  int **queue;    // 2d list of overall path from start to each point
+  int *priorities; // list of overall distance from start to each point
 };
 
 
@@ -37,9 +32,9 @@ struct pq *newPQ(){
 }
 
 /* struct pq *pq = priority queue 
-   void *item = a struct of matrix with distance and prev vertex
-   int priority = distance from start to next vertex*/
-void enqueue(struct pq *pq, struct element *item, int priority){
+   int *item = a list of overall path from start to vertex
+   int priority = overall distance from start to vertex*/
+void enqueue(struct pq *pq, int *item, int priority){
   assert(pq);
   if((pq->count + 1) > pq->allocated){
     if (pq->allocated == 0){
