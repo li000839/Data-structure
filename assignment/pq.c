@@ -39,7 +39,7 @@ struct pq *newPQ(){
 /* struct pq *pq = priority queue 
    void *item = a struct of matrix with distance and prev vertex
    int priority = distance from start to next vertex*/
-void enqueue(struct pq *pq, void *item, int priority){
+void enqueue(struct pq *pq, struct element *item, int priority){
   assert(pq);
   if((pq->count + 1) > pq->allocated){
     if (pq->allocated == 0){
