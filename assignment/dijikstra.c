@@ -17,14 +17,41 @@ findCableTotal(struct graph *g, int start) {
     return;
 }
 
-dijkstra(struct graph *g, int prev) {
+void
+dijkstra(struct graph *g, int start) {
+    // initialize pq
     struct pq *PriorityQueue = newPQ();
-    PriorityQueue = initPQ(PriorityQueue);
-
-
-    dist[prev] = 0;
+    PriorityQueue = initPQ(g, PriorityQueue, start);
+    
+    struct path *finalPath = NULL;
+    finalPath = (struct path *)malloc(sizeof(struct path));
     while (PriorityQueue->count != 0) {
-        for (allEdgeList) {
+        // eject min
+        struct path * item = NULL;
+        item = deletemin(PriorityQueue);
+        int i = g->numVertices - PriorityQueue->count;
+        addFinalPath(finalPath, item, i);
+        
+        // get all possible edge from prev
+        int prev = item->vertex;
+        int totalDistanceToPerv = 0;
+        for (int i=0;i<g->numEdges;i++) {
+            if (g->edgeList[i]->start == prev) {
+                int cur = g->edgeList[i]->end;
+                // check whether cur inside pq
+                for (int j=0;j<PriorityQueue->count;j++) {
+                    int distPrevToNext = findDistance(g, prev, cur);
+                    if (cur == PriorityQueue->queue[j]->vertex &&
+                        totalDistanceToPerv + distPrevToNext < 
+                        PriorityQueue->priorities[j]) {
+                            PriorityQueue->priorities[j] = totalDistanceToPerv + distPrevToNext;
+                    }
+                }
+            }
+
+
+
+
             if (next == allEdgeList[i] && 
                 dist(prev) + weight(prev, next) < dist[next]) {
                     dist[next] = dist[prev] + weight(prev, next);
@@ -33,22 +60,20 @@ dijkstra(struct graph *g, int prev) {
             }
         }
     }
-
-
 }
 
 struct pq 
-*initPQ(struct graph *g, struct pq *PriorityQueue) {
-    PriorityQueue->queue = (int ***)malloc(sizeof(g->numVertices * (*(PriorityQueue->queue))));
-    for(int i=0;i<g->numVertices;i++ ) {
-        PriorityQueue->queue[i] = (int *)malloc(sizeof(int));
+*initPQ(struct graph *g, struct pq *PriorityQueue, int start) {
+    struct path *item = NULL;
+    item = (struct path *)malloc(sizeof(struct path));
+    
+    for(int i=0;i<g->numVertices;i++) {
+        if(i == start) {
+            enqueue(PriorityQueue, item, 0);
+        } else {
+            enqueue(PriorityQueue, item, INFINITY);
+        } 
     }
-
-    PriorityQueue->priorities = (int *)malloc(sizeof(g->numVertices * (*(PriorityQueue->priorities))));
-    for(int j=0;j<g->numVertices;j++) {
-        PriorityQueue->priorities[j] = INFINITY;
-    }
-
     return PriorityQueue;
 }
 
@@ -65,6 +90,11 @@ findDistance(struct graph *g, int start, int end) {
             return NULL;
         }
     }
+}
+
+void
+addFinalPath(int *finalPath, struct path *item, int count) {
+    finalPath[count] = item;
 }
 
 

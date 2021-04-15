@@ -13,10 +13,15 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 
 #define INITIALITEMS 32
 
+struct path {
+  int vertex;
+  int *prevcur;
+};
+
 struct pq {
   int count;       // length of pq
   int allocated;   // to increase size of pq, no other function
-  int **queue;    // 2d list of overall path from start to each point
+  struct path **queue;    // 2d list of overall path from start to each point
   int *priorities; // list of overall distance from start to each point
 };
 
@@ -32,7 +37,7 @@ struct pq *newPQ(){
 }
 
 
-void enqueue(struct pq *pq, int *item, int priority){
+void enqueue(struct pq *pq, struct path *item, int priority){
   assert(pq);
   if((pq->count + 1) > pq->allocated){
     if (pq->allocated == 0){
@@ -40,7 +45,7 @@ void enqueue(struct pq *pq, int *item, int priority){
     } else {
       pq->allocated *= 2;
     }
-    pq->queue = (void **) realloc(pq->queue, pq->allocated * sizeof(void *));
+    pq->queue = (struct path **) realloc(pq->queue, pq->allocated * sizeof(struct path *));
     assert(pq->queue);
     pq->priorities = (int *) realloc(pq->priorities, pq->allocated *
       sizeof(int));
@@ -52,7 +57,7 @@ void enqueue(struct pq *pq, int *item, int priority){
 }
 
 /* Scan through all the priorities linearly and find lowest. */
-int *deletemin(struct pq *pq){
+struct path *deletemin(struct pq *pq){
   int i;
   int lowestElement = 0;
   int *returnVal;
