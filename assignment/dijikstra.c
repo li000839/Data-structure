@@ -9,12 +9,10 @@
 
 int
 findCableTotal(struct graph *g, int start) {
-    
-    dijkstra(g, start);
-
-    calculateCost(QueueOftotalPath);
-    
-    return;
+    struct path *finalPath = NULL;
+    finalPath = dijkstra(g, start);
+    int lastVertex = g->numVertices - 1;
+    return finalPath[lastVertex]->cost;
 }
 
 void
@@ -51,6 +49,7 @@ dijkstra(struct graph *g, int start) {
             }
         }
     }
+    return finalPath;
 }
 
 struct pq 
@@ -94,6 +93,9 @@ update(struct pq *PriorityQueue, int prev, int cur, int priority) {
     // record path: prev to cur
     int *prevToCur[2] = {prev, cur}; 
     PriorityQueue->queue[cur]->prevToCur = prevToCur;
+
+    // record priority from origin to this vertex
+    PriorityQueue->queue[cur]->cost = priority;;
 
     // record total priority
     PriorityQueue->priorities[cur] = priority;

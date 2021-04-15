@@ -26,7 +26,7 @@ struct pq *newPQ();
 /* struct pq *pq = priority queue 
    int *item = a list of overall path from start to vertex
    int priority = overall distance from start to vertex*/
-void enqueue(struct pq *pq, int *item, int priority);
+void enqueue(struct pq *pq, struct path *item, int priority);
 
 /* Take the smallest item from the priority queue - cast pointer back to
   original type. */

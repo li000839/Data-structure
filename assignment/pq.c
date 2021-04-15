@@ -16,6 +16,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 struct path {
   int vertex;
   int *prevToCur;
+  int cost;
 };
 
 struct pq {
