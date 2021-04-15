@@ -31,9 +31,7 @@ struct pq *newPQ(){
   return pq;
 }
 
-/* struct pq *pq = priority queue 
-   int *item = a list of overall path from start to vertex
-   int priority = overall distance from start to vertex*/
+
 void enqueue(struct pq *pq, int *item, int priority){
   assert(pq);
   if((pq->count + 1) > pq->allocated){
@@ -54,10 +52,10 @@ void enqueue(struct pq *pq, int *item, int priority){
 }
 
 /* Scan through all the priorities linearly and find lowest. */
-void *deletemin(struct pq *pq){
+int *deletemin(struct pq *pq){
   int i;
   int lowestElement = 0;
-  void *returnVal;
+  int *returnVal;
   if (pq->count <= 0){
     return NULL;
   }

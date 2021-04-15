@@ -5,19 +5,21 @@
 #include "graph.h"
 #include "pq.h"
 
+#define INFINITY 100000
+
 int
 findCableTotal(struct graph *g, int start) {
     
     dijkstra(g, start);
 
-    calculateCost(PriorityQueue);
+    calculateCost(QueueOftotalPath);
     
     return;
 }
 
 dijkstra(struct graph *g, int prev) {
     struct pq *PriorityQueue = newPQ();
-    PriorityQueue = initPQ(g);
+    PriorityQueue = initPQ(PriorityQueue);
 
 
     dist[prev] = 0;
@@ -35,30 +37,37 @@ dijkstra(struct graph *g, int prev) {
 
 }
 
-// int
-// findDistance(int start) {
-//     struct graph *g;
-//     // find edge in E
-//     for(int i=0; i<g->numEdges; i++) {
-//         // if can't find, return -1. if found, return distance
-//         if (g->edgeList[i]->start == startPoint && 
-//             g->edgeList[i]->end == endPoint) {
-//             return g->edgeList[i]->cost;
-//         } else { 
-//             return -1;
-//         }
-//     }
-// }
+struct pq 
+*initPQ(struct graph *g, struct pq *PriorityQueue) {
+    PriorityQueue->queue = (int ***)malloc(sizeof(g->numVertices * (*(PriorityQueue->queue))));
+    for(int i=0;i<g->numVertices;i++ ) {
+        PriorityQueue->queue[i] = (int *)malloc(sizeof(int));
+    }
 
-// struct pq 
-// *initPQ(struct graph *g) {
-//     struct pq *PriorityQueue = newPQ();
-//     struct edge *allEdge = NULL;
-//     for(int i=0;i<g->numVertices;i++){
-//         enqueue(PriorityQueue, findAlledge(g, i), findLowestCost(g, i));
-//     }
-//     return PriorityQueue;
-// }
+    PriorityQueue->priorities = (int *)malloc(sizeof(g->numVertices * (*(PriorityQueue->priorities))));
+    for(int j=0;j<g->numVertices;j++) {
+        PriorityQueue->priorities[j] = INFINITY;
+    }
+
+    return PriorityQueue;
+}
+
+
+int
+findDistance(struct graph *g, int start, int end) {
+    // find edge in E
+    for(int i=0; i<g->numEdges; i++) {
+        // if can't find, return -1. if found, return distance
+        if (g->edgeList[i]->start == start && 
+            g->edgeList[i]->end == end) {
+            return g->edgeList[i]->cost;
+        } else { 
+            return NULL;
+        }
+    }
+}
+
+
 
 // struct edge 
 // **findAlledge(struct graph *g, int vertex) {

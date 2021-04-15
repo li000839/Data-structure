@@ -6,13 +6,21 @@ Visible structs and functions for priority queues.
 Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 */
 /* The priority queue. */
-struct pq;
+struct pq {
+  int count;       // length of pq
+  int allocated;   // to increase size of pq, no other function
+  int **queue;    // 2d list of overall path from start to each point
+  int *priorities; // list of overall distance from start to each point
+};
 
 /* Get a new empty priority queue. */
 struct pq *newPQ();
 
 /* Add an item to the priority queue - cast pointer to (void *). */
-void enqueue(struct pq *pq, void *item, int priority);
+/* struct pq *pq = priority queue 
+   int *item = a list of overall path from start to vertex
+   int priority = overall distance from start to vertex*/
+void enqueue(struct pq *pq, int *item, int priority);
 
 /* Take the smallest item from the priority queue - cast pointer back to
   original type. */
