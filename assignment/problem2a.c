@@ -11,7 +11,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 
 int main(int argc, char **argv){
   /* Read the problem in from stdin. */
-  struct graphProblem *problem = readProblem(argv[2]));
+  struct graphProblem *problem = readProblem(argv[2]);
   /* Find the solution to the problem. */
   struct solution *solution = findSolution(problem, PART_A);
 

@@ -1,4 +1,5 @@
 #include "graph.h"
+#include "pq.h"
 
 /* find the cost of pure cable plan */
 int findCableTotal(struct graph *g, int start);

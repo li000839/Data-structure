@@ -16,23 +16,6 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 
 #define INITIALEDGES 32
 
-struct edge;
-
-/* Definition of a graph. */
-struct graph {
-  int numVertices;
-  int numEdges;
-  int allocedEdges;
-  struct edge **edgeList;
-};
-
-/* Definition of an edge. */
-struct edge {
-  int start;
-  int end;
-  int cost;
-};
-
 struct graph *newGraph(int numVertices){
   struct graph *g = (struct graph *) malloc(sizeof(struct graph));
   assert(g);

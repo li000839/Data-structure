@@ -6,19 +6,26 @@ Visible structs and functions for graph construction and manipulation.
 Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 */
 
-/* Definition of a graph. */
+/* Definition of a edge. */
+#ifndef EDGE_STRUCT
+#define EDGE_STRUCT
 struct edge {
   int start;
   int end;
   int cost;
 };
+#endif
 
+/* Definition of a graph. */
+#ifndef GRAPH_STRUCT
+#define GRAPH_STRUCT
 struct graph {
   int numVertices;
   int numEdges;
   int allocedEdges;
   struct edge **edgeList;
 };
+#endif
 
 enum problemPart;
 
