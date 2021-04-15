@@ -16,8 +16,8 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 struct pq {
   int count;
   int allocated;
-  struct edge **edgeList;
-  int *priorities; // sum all element up, this is final distance
+  void **queue;
+  int *priorities;
 };
 
 
@@ -26,30 +26,28 @@ struct pq *newPQ(){
   assert(pq);
   pq->count = 0;
   pq->allocated = 0;
-  pq->edgeList = NULL;
+  pq->queue = NULL;
   pq->priorities = NULL;
   return pq;
 }
 
-void enqueue(struct pq *pq, struct edge **edgeList, int priority){
+void enqueue(struct pq *pq, void *item, int priority){
   assert(pq);
-  /* increases size if no space*/
   if((pq->count + 1) > pq->allocated){
     if (pq->allocated == 0){
       pq->allocated = INITIALITEMS;
     } else {
       pq->allocated *= 2;
     }
-    pq->edgeList = (void **) realloc(pq->edgeList, pq->allocated * sizeof(void *));
-    assert(pq->edgeList);
+    pq->queue = (void **) realloc(pq->queue, pq->allocated * sizeof(void *));
+    assert(pq->queue);
     pq->priorities = (int *) realloc(pq->priorities, pq->allocated *
       sizeof(int));
     assert(pq->priorities);
   }
-  /* insert */
-  (pq->edgeList)[pq->count] = edgeList; // 一个点的所有边
-  (pq->priorities)[pq->count] = priority; // 一个点的所有边，其中的最短距离
-  (pq->count)++; 
+  (pq->queue)[pq->count] = item;
+  (pq->priorities)[pq->count] = priority;
+  (pq->count)++;
 }
 
 /* Scan through all the priorities linearly and find lowest. */
@@ -65,14 +63,12 @@ void *deletemin(struct pq *pq){
       lowestElement = i;
     }
   }
-  returnVal = (pq->edgeList)[lowestElement];
+  returnVal = (pq->queue)[lowestElement];
   /* Delete item from queue by swapping final item into place of deleted
     element. */
   if(pq->count > 0){
-    /* delete lowst cost from origin to next step*/
     (pq->priorities)[lowestElement] = (pq->priorities)[pq->count - 1];
-    /* delete corresponding adjacency list of that vertex*/
-    (pq->edgeList)[lowestElement] = (pq->edgeList)[pq->count - 1];
+    (pq->queue)[lowestElement] = (pq->queue)[pq->count - 1];
     (pq->count)--;
   }
   return returnVal;
@@ -87,7 +83,7 @@ void freePQ(struct pq *pq){
     return;
   }
   if(pq->allocated > 0){
-    free(pq->edgeList);
+    free(pq->queue);
     free(pq->priorities);
   }
   free(pq);
