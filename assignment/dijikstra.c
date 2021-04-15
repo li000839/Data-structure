@@ -45,20 +45,9 @@ dijkstra(struct graph *g, int start) {
                     if (cur == PriorityQueue->queue[curIndex]->vertex &&
                         totalDistanceToPerv + distPrevToCur < priority) {
                             priority = totalDistanceToPerv + distPrevToCur;
+                            update(PriorityQueue, prev, cur, priority);
                             prev = cur;
-                            update(PriorityQueue, cur, priority);
-                    }
                 }
-            }
-
-
-
-
-            if (next == allEdgeList[i] && 
-                dist(prev) + weight(prev, next) < dist[next]) {
-                    dist[next] = dist[prev] + weight(prev, next);
-                    prev[next] = prev;
-                    updatePQ(PriorityQueue, next, dist[next]);
             }
         }
     }
@@ -101,11 +90,13 @@ addFinalPath(int *finalPath, struct path *item, int count) {
 
 
 void
-update(struct pq *PriorityQueue, int cur, int priority) {
-    // record total path
+update(struct pq *PriorityQueue, int prev, int cur, int priority) {
+    // record path: prev to cur
+    int *prevToCur[2] = {prev, cur}; 
+    PriorityQueue->queue[cur]->prevToCur = prevToCur;
 
     // record total priority
-
+    PriorityQueue->priorities[cur] = priority;
 }
 
 
