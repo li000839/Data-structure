@@ -25,6 +25,7 @@ dijkstra(struct graph *g, int start) {
     
     struct path *finalPath = NULL;
     finalPath = (struct path *)malloc(sizeof(struct path));
+    int totalDistanceToPerv = 0;
     while (PriorityQueue->count != 0) {
         // eject min
         struct path * item = NULL;
@@ -34,17 +35,18 @@ dijkstra(struct graph *g, int start) {
         
         // get all possible edge from prev
         int prev = item->vertex;
-        int totalDistanceToPerv = 0;
-        for (int i=0;i<g->numEdges;i++) {
-            if (g->edgeList[i]->start == prev) {
-                int cur = g->edgeList[i]->end;
+        for (int prevIndex=0;prevIndex<g->numEdges;prevIndex++) {
+            if (g->edgeList[prevIndex]->start == prev) {
+                int cur = g->edgeList[prevIndex]->end;
                 // check whether cur inside pq
-                for (int j=0;j<PriorityQueue->count;j++) {
-                    int distPrevToNext = findDistance(g, prev, cur);
-                    if (cur == PriorityQueue->queue[j]->vertex &&
-                        totalDistanceToPerv + distPrevToNext < 
-                        PriorityQueue->priorities[j]) {
-                            PriorityQueue->priorities[j] = totalDistanceToPerv + distPrevToNext;
+                for (int curIndex=0;curIndex<PriorityQueue->count;curIndex++) {
+                    int distPrevToCur = findDistance(g, prev, cur);
+                    int priority = PriorityQueue->priorities[cur];
+                    if (cur == PriorityQueue->queue[curIndex]->vertex &&
+                        totalDistanceToPerv + distPrevToCur < priority) {
+                            priority = totalDistanceToPerv + distPrevToCur;
+                            prev = cur;
+                            update(PriorityQueue, cur, priority);
                     }
                 }
             }
@@ -98,30 +100,13 @@ addFinalPath(int *finalPath, struct path *item, int count) {
 }
 
 
+void
+update(struct pq *PriorityQueue, int cur, int priority) {
+    // record total path
 
-// struct edge 
-// **findAlledge(struct graph *g, int vertex) {
-//     // create a edge list
-//     struct edge **allEdge = NULL;
-//     allEdge = (struct edge **) malloc(g->numEdges * sizeof(struct edge *));
+    // record total priority
 
-//     // find all edge that start from vertex
-//     int count = 0;
-//     for(int i=0; i<g->numEdges; i++) {
-//         if (g->edgeList[i]->start == vertex){
-//             // add those edge into edge list
-//             allEdge[count]->start = g->edgeList[i]->start;
-//             allEdge[count]->end = g->edgeList[i]->end;
-//             allEdge[count]->cost = g->edgeList[i]->cost;
-//             count++;
-//         }
-//     }
-//     return allEdge;
-// }
-
-
-// void
-// updatePriorityQueue();
+}
 
 
 
