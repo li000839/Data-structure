@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "dijikstra.h": "c"
+        "dijikstra.h": "c",
+        "assert.h": "c"
     }
 }

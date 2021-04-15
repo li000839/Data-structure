@@ -15,7 +15,7 @@ struct graphProblem;
 
 /* Reads the data from the given file pointer and returns a pointer to this
 information. */
-struct graphProblem *readProblem(FILE *file);
+struct graphProblem *readProblem(char *filename);
 
 /* Finds a solution for a given problem. */
 struct solution *findSolution(struct graphProblem *problem,

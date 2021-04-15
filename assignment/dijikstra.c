@@ -15,8 +15,8 @@ findCableTotal(struct graph *g, int start) {
     return finalPath[lastVertex]->cost;
 }
 
-void
-dijkstra(struct graph *g, int start) {
+struct path 
+*dijkstra(struct graph *g, int start) {
     // initialize pq
     struct pq *PriorityQueue = newPQ();
     PriorityQueue = initPQ(g, PriorityQueue, start);

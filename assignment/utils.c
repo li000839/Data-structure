@@ -18,11 +18,14 @@ struct graphProblem {
   struct graph *graph;
 };
 
-struct graphProblem *readProblem(FILE *file){
+struct graphProblem *readProblem(char *filename){
   int i;
   int startHouse;
   int endHouse;
   int cost;
+
+  freopen(filename,"r",stdin);
+
   /* Allocate space for problem specification */
   struct graphProblem *problem = (struct graphProblem *)
     malloc(sizeof(struct graphProblem));

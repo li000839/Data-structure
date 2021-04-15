@@ -30,7 +30,7 @@ pq.o: pq.c pq.h
 	gcc -c pq.c -Wall -g
 
 dijikstra.o: dijikstra.c dijikstra.h graph.h pq.h
-	gcc -c graph.c -Wall -g
+	gcc -c dijikstra.c -Wall -g
 
 list.o: list.c list.h
 	gcc -c list.c -Wall -g

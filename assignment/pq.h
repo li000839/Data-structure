@@ -6,18 +6,24 @@ Visible structs and functions for priority queues.
 Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 */
 /* The priority queue. */
+#ifndef PATH_STRUCT
+#define PATH_STRUCT
 struct path {
   int vertex;
   int *prevcur;
   int cost;
 };
+#endif
 
+#ifndef PQ_STRUCT
+#define PQ_STRUCT
 struct pq {
   int count;       // length of pq
   int allocated;   // to increase size of pq, no other function
   struct path **queue;    // 2d list of overall path from start to each point
   int *priorities; // list of overall distance from start to each point
 };
+#endif
 
 /* Get a new empty priority queue. */
 struct pq *newPQ();

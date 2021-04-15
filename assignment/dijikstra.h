@@ -5,7 +5,7 @@
 int findCableTotal(struct graph *g, int start);
 
 /* give the shortest cost of the path by dijkstra */
-void dijkstra(struct graph *g, int start);
+struct path *dijkstra(struct graph *g, int start);
 
 /* initialize a priority queue with a start vertex*/
 struct pq *initPQ(struct graph *g, struct pq *PriorityQueue, int start);

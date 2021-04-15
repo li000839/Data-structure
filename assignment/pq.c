@@ -61,7 +61,7 @@ void enqueue(struct pq *pq, struct path *item, int priority){
 struct path *deletemin(struct pq *pq){
   int i;
   int lowestElement = 0;
-  int *returnVal;
+  struct path *returnVal;
   if (pq->count <= 0){
     return NULL;
   }
