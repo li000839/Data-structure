@@ -12,7 +12,7 @@ findCableTotal(struct graph *g, int start) {
     struct path *finalPath = NULL;
     finalPath = dijkstra(g, start);
     int lastVertex = g->numVertices - 1;
-    return finalPath[lastVertex]->cost;
+    return finalPath[lastVertex].cost;
 }
 
 struct path 
@@ -45,6 +45,7 @@ struct path
                             priority = totalDistanceToPerv + distPrevToCur;
                             update(PriorityQueue, prev, cur, priority);
                             prev = cur;
+                    }
                 }
             }
         }
@@ -62,7 +63,7 @@ struct pq
             enqueue(PriorityQueue, item, 0);
         } else {
             enqueue(PriorityQueue, item, INFINITY);
-        } 
+        }
     }
     return PriorityQueue;
 }
@@ -71,27 +72,26 @@ struct pq
 int
 findDistance(struct graph *g, int start, int end) {
     // find edge in E
+    int result = 0;
     for(int i=0; i<g->numEdges; i++) {
-        // if can't find, return -1. if found, return distance
         if (g->edgeList[i]->start == start && 
             g->edgeList[i]->end == end) {
-            return g->edgeList[i]->cost;
-        } else { 
-            return NULL;
+            result = g->edgeList[i]->cost;
         }
     }
+    return result;
 }
 
 void
-addFinalPath(int *finalPath, struct path *item, int count) {
-    finalPath[count] = item;
+addFinalPath(struct path *finalPath, struct path *item, int count) {
+    finalPath[count] = *item;
 }
 
 
 void
 update(struct pq *PriorityQueue, int prev, int cur, int priority) {
     // record path: prev to cur
-    int *prevToCur[2] = {prev, cur}; 
+    int prevToCur[2] = {prev, cur}; 
     PriorityQueue->queue[cur]->prevToCur = prevToCur;
 
     // record priority from origin to this vertex
@@ -100,60 +100,3 @@ update(struct pq *PriorityQueue, int prev, int cur, int priority) {
     // record total priority
     PriorityQueue->priorities[cur] = priority;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// int
-// findLowestCost(struct graph *g, int vertex) {
-//     // create a edge list
-//     struct edge **allEdge = NULL;
-//     allEdge = (struct edge **) malloc(g->numEdges * sizeof(struct edge *));
-
-//     // find all edge that start from vertex
-//     int count = 0;
-//     for(int i=0; i<g->numEdges; i++) {
-//         if (g->edgeList[i]->start == vertex){
-//             // add those edge into edge list
-//             allEdge[count]->start = g->edgeList[i]->start;
-//             allEdge[count]->end = g->edgeList[i]->end;
-//             allEdge[count]->cost = g->edgeList[i]->cost;
-//             count++;
-//         }
-//     }
-
-//     // find lowest cost
-//     int lowestElement = 0;
-//     for(int i=0; i<count;i++) {
-//         if(allEdge[i]->cost < allEdge[lowestElement]->cost) {
-//             lowestElement = i;
-//         }
-//     }
-
-//     return allEdge[lowestElement]->cost;
-// }
-
-
-
-

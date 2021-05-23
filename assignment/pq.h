@@ -10,7 +10,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 #define PATH_STRUCT
 struct path {
   int vertex;
-  int *prevcur;
+  int *prevToCur;
   int cost;
 };
 #endif

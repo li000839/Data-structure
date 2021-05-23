@@ -17,7 +17,9 @@ int main(int argc, char **argv){
 
   /* Report solution */
   /* printf("Cost of installation using antennas %d\n", solution->antennaTotal); */
+  printf("Cost of installation using antennas %d\n", solution->antennaTotal);
   /* printf("Cost of installation using cables %d\n", solution->cableTotal); */
+  printf("Cost of installation using cables %d\n", solution->cableTotal);
 
   /* Print better choice. */
   if(solution->cableTotal < solution->antennaTotal){

@@ -10,6 +10,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 #include <stdlib.h>
 #include <assert.h>
 #include <limits.h>
+#include "dijikstra.h"
 #include "graph.h"
 #include "utils.h"
 #include "pq.h"
@@ -76,7 +77,7 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     /* IMPLEMENT 2A SOLUTION HERE */
     solution->antennaTotal = antennaCost * numHouses;
     /* Dijksttra + priority queue */
-    solution->cableTotal = 0;
+    solution->cableTotal = findCableTotal(g, 0);
   } else {
     /* IMPLEMENT 2C SOLUTION HERE */
     solution->mixedTotal = 0;
