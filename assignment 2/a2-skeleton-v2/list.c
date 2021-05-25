@@ -13,6 +13,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 struct list {
   void *item;
   struct list *next;
+  int size;
 };
 
 struct list *newlist(void *item){
@@ -20,6 +21,7 @@ struct list *newlist(void *item){
   assert(head);
   head->item = item;
   head->next = NULL;
+  head->size = 0;
   return head;
 }
 
@@ -28,6 +30,7 @@ struct list *prependList(struct list *list, void *item){
   assert(head);
   head->item = item;
   head->next = list;
+  head->size++
   return head;
 }
 
@@ -62,6 +65,7 @@ void freeList(struct list *list){
   }
 }
 
+// return the number of elements contained in a list
 int list_size(List *list) {
 	assert(list != NULL);
 	return list->size;

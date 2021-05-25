@@ -1,21 +1,9 @@
-#include <assert.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
-#include "graph.h"
-#include "graphalgs.h"
-
-// Recursive explore function which explores from node u in the graph.
-// order and visited are arrays of length n_vertices, n_visited is a pointer
-// to the number of nodes which have already been visited.
+// Runs a depth first search on the given graph, returning a dynamically
+// allocated array of integers representing the order in which the DFS
+// visits the nodes in the graph.
 //
-// order[i] == k means that vertex k was visited ith in the order, while
-// visited[i] == true means that node i has been visited
-void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_visited);
-
-
-int dfs(struct graph *graph) {
+// The resultant array will be of size n_vertices and must be freed after use.
+int *dfs(Graph *graph) {
   int n = graph_num_vertices(graph);
   int *order = malloc(sizeof(int) * n);
   assert(order);
@@ -34,10 +22,16 @@ int dfs(struct graph *graph) {
   }
 
   free(visited);
-  return connected_subnetworks;
+  return order;
 }
 
-void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_visited) {
+// Recursive explore function which explores from node u in the graph.
+// order and visited are arrays of length n_vertices, n_visited is a pointer
+// to the number of nodes which have already been visited.
+//
+// order[i] == k means that vertex k was visited ith in the order, while
+// visited[i] == true means that node i has been visited
+void dfs_explore(Graph *graph, int u, int *order, bool *visited, int *n_visited) {
   visited[u] = true;
   order[*n_visited] = u;
   (*n_visited)++;
