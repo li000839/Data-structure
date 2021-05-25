@@ -120,14 +120,3 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   return solution;
 }
 
-// Get the number of vertices in the graph
-int graph_num_vertices(Graph *graph) {
-  return graph->n_vertices;
-}
-
-// Get the out degree of a given node in the graph (i.e., number of out
-// edges from this node).
-int graph_out_degree(Graph *graph, int u) {
-  return list_size(graph->vertices[u]);
-}
-
