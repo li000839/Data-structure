@@ -67,7 +67,4 @@ bool list_iterator_has_next(ListIterator *iterator);
 // get's the next element in the list
 int list_iterator_next(ListIterator *iterator);
 
-// return the number of elements contained in a list
-int list_size(List *list);
-
 #endif

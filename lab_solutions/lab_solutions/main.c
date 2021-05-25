@@ -8,12 +8,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 
 #include "graph.h"
 #include "graphalgs.h"
 #include "priorityqueue.h"
- 
+
 // Read in a graph from stdin where the input format is:
 //
 // t w n m
@@ -33,13 +32,10 @@
 //    and indicates the weight of each edge. w_i can be negative.
 //
 // Returns the read in graph or NULL if the input was malformed.
-Graph *read_graph_from_stdin();
-Graph *read_graph_from_argv(char *filename);
+Graph *read_graph_from_stdin(char *filename);
 
 int main(int argc, char **argv) {
-  assert(argc==2);
-  Graph *graph = read_graph_from_argv(argv[1]);
-  
+  Graph *graph = read_graph_from_stdin(argv[1]);
   printf("Read in the following graph:\n");
   graph_print_adjacency_lists(graph);
 
@@ -56,11 +52,10 @@ int main(int argc, char **argv) {
   free(dfs_order);
   dfs_order = NULL;
 
-
-  // Run the bfs algorithm on the read in graph
+  // Run the dfs algorithm on the read in graph
   int *bfs_order = bfs(graph);
 
-  // Print out the order in which the nodes were visited in the bfs
+  // Print out the order in which the nodes were visited in the dfs
   printf("BFS Order:");
   for (int i = 0; i < graph_num_vertices(graph); i++) {
     printf(" %d", bfs_order[i]);
@@ -69,6 +64,35 @@ int main(int argc, char **argv) {
 
   free(bfs_order);
   bfs_order = NULL;
+
+  int *from = calloc(graph_num_vertices(graph), sizeof(int));
+  int *to = calloc(graph_num_vertices(graph), sizeof(int));
+
+  if (!prims(graph, from, to)) {
+    printf("Couldn't find an MST using Prim's algorithm.\n");
+  } else {
+    printf("Edges in the MST:");
+    for (int i = 0; i < graph_num_vertices(graph) - 1; i++) {
+      printf(" (%d, %d)", from[i], to[i]);
+    }
+    printf("\n");
+  }
+
+  free(from);
+  from = NULL;
+  free(to);
+  to = NULL;
+
+  int *dist = calloc(graph_num_vertices(graph), sizeof(int));
+
+  dijkstras(graph, 0, dist);
+  printf("Shortest distances from 0:\n");
+  for (int i = 0; i < graph_num_vertices(graph); i++) {
+    printf("  to %d: %d\n", i, dist[i]);
+  }
+
+  free(dist);
+  dist = NULL;
 
   return 0;
 }
@@ -92,12 +116,13 @@ int main(int argc, char **argv) {
 //    and indicates the weight of each edge. w_i can be negative.
 //
 // Returns the read in graph or NULL if the input was malformed.
-Graph *read_graph_from_stdin() {
+Graph *read_graph_from_stdin(char *filename) {
   char t, w;
   int n, m;
   int u_i, v_i, w_i;
   bool directed, weighted;
 
+  freopen(filename, "r", stdin);
   // read in the first line of input
   if (scanf("%c %c %d %d", &t, &w, &n, &m) != 4) {
     return NULL;
@@ -135,58 +160,6 @@ Graph *read_graph_from_stdin() {
       return NULL;
     }
   }
-
-  return graph;
-}
-
-Graph *read_graph_from_argv(char *filename) {
-  char t, w;
-  int n, m;
-  int u_i, v_i, w_i;
-  bool directed, weighted;
-
-  freopen(filename,"r",stdin);
-
-  // read in the first line of input
-  if (scanf("%c %c %d %d", &t, &w, &n, &m) != 4) {
-    return NULL;
-  }
-
-  assert(t);
-  // make sure t is valid
-  if (t == 'U' || t == 'u') {
-    directed = false;
-  } else if (t == 'D' || t == 'd') {
-    directed = true;
-  } else {
-    return NULL;
-  }
-
-  // make sure w is valid
-  if (w == 'U' || w == 'u') {
-    weighted = false;
-  } else if (w == 'W' || w == 'w') {
-    weighted = true;
-  } else {
-    return NULL;
-  }
-
-  Graph *graph = new_graph(n, directed);
-
-  // m times read in a line of input and process the edge given
-  for (int i = 0; i < m; i++) {
-    if (weighted && (scanf("%d %d %d", &u_i, &v_i, &w_i) == 3)) {
-      graph_add_edge(graph, u_i, v_i, w_i);
-    } else if (!weighted && (scanf("%d %d", &u_i, &v_i) == 2)) {
-      graph_add_edge(graph, u_i, v_i, 1);
-    } else {
-      // something went wrong
-      free_graph(graph);
-      return NULL;
-    }
-  }
-
-  fclose(stdin);
 
   return graph;
 }
