@@ -122,12 +122,15 @@ int *bfs(Graph *graph) {
 // order[i] == k means that vertex k was visited ith in the order, while
 // visited[i] == true means that node i has been visited
 void bfs_explore(Graph *graph, int u, int *order, bool *visited, int *n_visited) {
-  // node was visited
-  visited[u] = true;
+  if(!visited[u]) {
+    // node was visited
+    visited[u] = true;
 
-  // record order
-  order[*n_visited] = u;
-  (*n_visited)++;
+    // record order
+    order[*n_visited] = u;
+    (*n_visited)++;
+  }
+  
 
   // Create an array to hold the neighbors of u
   int n_neighbours = graph_out_degree(graph, u);
@@ -143,14 +146,19 @@ void bfs_explore(Graph *graph, int u, int *order, bool *visited, int *n_visited)
     // 先找邻居，把所有邻居找完
     v = neighbours[i];
     // node was visited
-    visited[v] = true;
+    if(!visited[v]){
+      visited[v] = true;
 
-    // record order
-    order[*n_visited] = v;
-    (*n_visited)++;
-    if (i == n_neighbours) {
+      // record order
+      order[*n_visited] = v;
+      (*n_visited)++;
+    }
+    if (i == (n_neighbours - 1)) {
       // 再找邻居的邻居
-      bfs_explore(graph, v, order, visited, n_visited);
+      for(int j = 0; j < n_neighbours; j++) {
+        bfs_explore(graph, neighbours[j], order, visited, n_visited);
+      }
+      
     }
   }
 
