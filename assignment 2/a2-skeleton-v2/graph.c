@@ -87,6 +87,7 @@ void addEdge(struct graph *g, int start, int end){
   assert(end >= 0 && end < g->numVertices);
    
   list_add_end(g->vertices[start], end);
+  list_add_end(g->vertices[end], start);
 }
 
 /* Frees all memory used by graph. */

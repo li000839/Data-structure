@@ -19,9 +19,11 @@ int main(int argc, char **argv){
   }
   /* Read the problem in from stdin (outage info) and argv[1] (network info). */
   FILE *networkFile = fopen(argv[1], "r");
+  freopen(argv[3], "r", stdin);
   assert(networkFile);
   struct graphProblem *problem = readProblem(stdin, networkFile);
   assert(fclose(networkFile) == 0);
+  assert(fclose(stdin) == 0);
 
   /* Find the solution to the problem. */
   struct solution *solution = findSolution(problem, TASK_2);
