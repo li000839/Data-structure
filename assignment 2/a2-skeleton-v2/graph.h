@@ -14,6 +14,8 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021 and
 struct edge;
 
 struct graph;
+
+struct subset;
 #endif
 
 #ifndef SOLUTION_H

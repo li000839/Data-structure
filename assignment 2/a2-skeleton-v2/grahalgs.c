@@ -33,7 +33,6 @@ int dfsTask2(struct graph *graph) {
     if (!visited[u]) {
       connected_subnetworks++;
       // record traversal of each loop == record update of order
-      // #2
       dfs_explore(graph, u, order, visited, &n_visited);
     }
   }
@@ -83,7 +82,11 @@ int *quicksort(int *neighbours, int n_neighbours) {
   return neighbours;
 }
 
-int **dfsTask3(struct graph *graph, int *subnetSize) {
+struct subnet *dfsTask3(struct graph *graph) {
+  struct subnet *subnets = malloc(sizeof(struct subset*));
+  assert(subnets);
+  int *subnetSize = NULL;
+  
   int n = graph_num_vertices(graph);
   int *order = malloc(sizeof(int) * n);
   assert(order);
@@ -93,8 +96,8 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
 
   int n_visited = 0;
   int connected_subnetworks = 0;
-  int **subnets = NULL;
-  int *subnet = NULL;
+  int **subnetsComponent = NULL;
+  int *oneSubnetComponent = NULL;
   int allocedSubnet = 0;
   int allocedSize = 0;
   int numUpdate = 0;
@@ -111,18 +114,18 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
         } else {
           (allocedSubnet) *= 2;
         }
-        subnets = (int **) realloc(subnets, sizeof(int *) * allocedSubnet);
-        assert(subnets);
+        subnetsComponent = (int **) realloc(subnetsComponent, sizeof(int *) * allocedSubnet);
+        assert(subnetsComponent);
       }
 
       // record one subnet = record update of order
       numUpdate = n_visited - formerVisited;
-      subnet = (int *) realloc(subnet, sizeof(int) * numUpdate);
-      assert(subnet);
+      oneSubnetComponent = (int *) realloc(oneSubnetComponent, sizeof(int) * numUpdate);
+      assert(oneSubnetComponent);
 
       /* Copy updated part from order, create the subnet */
       for (int j = 0; j < numUpdate; j++) {
-        subnet[j] = order[j + formerVisited];
+        oneSubnetComponent[j] = order[j + formerVisited];
       }
 
       // record size of subnet
@@ -143,11 +146,14 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
       formerVisited = n_visited;
 
       /* sort and add the subnet to the subnets. */
-      subnet = quicksort(subnet, numUpdate);
-      subnets[connected_subnetworks - 1] = subnet;
+      oneSubnetComponent = quicksort(oneSubnetComponent, numUpdate);
+      subnetsComponent[connected_subnetworks - 1] = oneSubnetComponent;
     }
   }
-  
+  subnets->subnetSize = subnetSize;
+  subnets->subnetsComponent = subnetsComponent;
+  free(subnetSize);
+  free(subnetsComponent);
   free(visited);
   return subnets;
 }
@@ -181,11 +187,15 @@ int *LargestSubnetwork(int **subnets, int *subnetSize, int connectedSubnets) {
 
 int sizeLargestSubnetwork(int *subnetSize, int connectedSubnets) {
   // get largest size
-  int largest = subnetSize[0];
+  printf("connectedSubnets is %d\n", connectedSubnets);
+  printf("subnetSize[0] is %d\n", subnetSize[0]);
+  printf("subnetSize[1] is %d\n", subnetSize[1]);
+  int largest = 0;
   for (int i = 0; i < connectedSubnets; i++) {
     if (subnetSize[i] > largest) {
       largest = subnetSize[i];
     }
   }
+  printf("largest is %d\n", largest);
   return largest;
 }

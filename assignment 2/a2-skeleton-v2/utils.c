@@ -54,7 +54,7 @@ struct graphProblem *readProblem(FILE *outageFile, FILE *networkFile){
   for(i = 0; i < problem->outageCount; i++){
     assert(fscanf(outageFile, "%d", &((problem->outageSIDs)[i])) == 1);
   }
-
+  
   return problem;
 }
 
