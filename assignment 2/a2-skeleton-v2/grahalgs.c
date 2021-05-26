@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "graph.h"
 #include "grahalgs.h"
@@ -92,7 +93,7 @@ int *quicksort(int *neighbours, int n_neighbours) {
 struct subnet *dfsTask3(struct graph *graph) {
   struct subnet *subnets = (struct subnet *)malloc(sizeof(struct subnet*));
   assert(subnets);
-  int *subnetSize = NULL;
+  int *subSize = NULL;
   
   int n = graph_num_vertices(graph);
   int *order = (int *)malloc(sizeof(int) * n);
@@ -103,7 +104,7 @@ struct subnet *dfsTask3(struct graph *graph) {
 
   int n_visited = 0;
   int connected_subnetworks = 0;
-  int **subnetsComponent = NULL;
+  int **subComponent = NULL;
   int *oneSubnetComponent = NULL;
   int allocedSubnet = 0;
   int allocedSize = 0;
@@ -121,8 +122,8 @@ struct subnet *dfsTask3(struct graph *graph) {
         } else {
           (allocedSubnet) *= 2;
         }
-        subnetsComponent = (int **) realloc(subnetsComponent, sizeof(int *) * allocedSubnet);
-        assert(subnetsComponent);
+        subComponent = (int **) realloc(subComponent, sizeof(int *) * allocedSubnet);
+        assert(subComponent);
       }
 
       // record one subnet = record update of order
@@ -143,10 +144,10 @@ struct subnet *dfsTask3(struct graph *graph) {
         } else {
           (allocedSize) *= 2;
         }
-        subnetSize = (int *) realloc(subnetSize, sizeof(int) * allocedSize);
-        assert(subnetSize);
+        subSize = (int *) realloc(subSize, sizeof(int) * allocedSize);
+        assert(subSize);
       }
-      subnetSize[connected_subnetworks - 1] = numUpdate;
+      subSize[connected_subnetworks - 1] = numUpdate;
 
 
       // update formerVisited
@@ -154,13 +155,14 @@ struct subnet *dfsTask3(struct graph *graph) {
 
       /* sort and add the subnet to the subnets. */
       oneSubnetComponent = quicksort(oneSubnetComponent, numUpdate);
-      subnetsComponent[connected_subnetworks - 1] = oneSubnetComponent;
+      subComponent[connected_subnetworks - 1] = oneSubnetComponent;
     }
   }
-  subnets->subnetSize = subnetSize;
-  subnets->subnetsComponent = subnetsComponent;
-  free(subnetSize);
-  free(subnetsComponent);
+  
+  subnets->subnetSize = subSize;
+  subnets->subnetsComponent = subComponent;
+  free(subSize);
+  free(subComponent);
   free(visited);
   return subnets;
 }
