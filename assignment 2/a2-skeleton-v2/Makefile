@@ -9,8 +9,8 @@ CFLAGS = -Wall -Wno-comment -std=c99 -g
 task2: task2.o utils.o graph.o pq.o list.o grahalgs.o
 	$(CC) $(CFLAGS) -o task2 task2.o utils.o graph.o pq.o list.o grahalgs.o -lm
 
-task3: task3.o utils.o graph.o pq.o list.o
-	$(CC) $(CFLAGS) -o task3 task3.o utils.o graph.o pq.o list.o -lm
+task3: task3.o utils.o graph.o pq.o list.o grahalgs.o
+	$(CC) $(CFLAGS) -o task3 task3.o utils.o graph.o pq.o list.o grahalgs.o -lm
 
 task4: task4.o utils.o graph.o pq.o list.o
 	$(CC) $(CFLAGS) -o task4 task4.o utils.o graph.o pq.o list.o -lm

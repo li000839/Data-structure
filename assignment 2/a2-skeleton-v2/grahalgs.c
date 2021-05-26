@@ -17,7 +17,7 @@
 // visits the nodes in the graph.
 //
 // The resultant array will be of size n_vertices and must be freed after use.
-int dfs(struct graph *graph) {
+int dfsTask2(struct graph *graph) {
   int n = graph_num_vertices(graph);
   int *order = malloc(sizeof(int) * n);
   assert(order);
@@ -35,19 +35,6 @@ int dfs(struct graph *graph) {
       // #2
       dfs_explore(graph, u, order, visited, &n_visited);
     }
-  }
-
-  // #3 compare if there are two same size subnetworks
-  if (//) {
-    // same size, update largest Subnetwork number
-    solution->largestSubnet = 0;
-    // same size, updatte largest Subnetwork
-    solution->largestSubnetSIDs;
-  } else { 
-    // not same size, update largest Subnetwork number
-    solution->largestSubnet = 0;
-    // not same size, updatte largest Subnetwork
-  solution->largestSubnetSIDs;
   }
 
   free(visited);
@@ -82,15 +69,47 @@ void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_v
   free(neighbours);
 }
 
-int *quicksort(int *neighbours) {
-  for (int i = 1; i < n;; i++) {
+int *quicksort(int *neighbours, int n_neighbours) {
+  for (int i = 1; i < n_neighbours; i++) {
     int temp = neighbours[i];
     int j = i - 1;
     while (j >= 0 && temp < neighbours[j]) {
       neighbours[j + 1] = neighbours[j];
-      j = j--;
+      j--;
     }
     neighbours[j + 1] = temp;
   }
   return neighbours;
+}
+
+int **dfsTask3(struct graph *graph) {
+  int n = graph_num_vertices(graph);
+  int *order = malloc(sizeof(int) * n);
+  assert(order);
+  // Use calloc to allocate and set all memory to 0
+  bool *visited = calloc(n, sizeof(bool));
+  assert(visited);
+
+  int n_visited = 0;
+  int connected_subnetworks = 0;
+
+  int row = 0;
+  int col = 1;
+  int **subnets = (int**)malloc(sizeof(int*) * row);  
+  for (i = 0;i < row;i++) {
+    subnets[i] = (int*)malloc(sizeof(int) * col);
+  }
+  for (int u = 0; u < n; u++) {
+    if (!visited[u]) {
+      connected_subnetworks++;
+      dfs_explore(graph, u, order, visited, &n_visited);
+      // record traversal of each loop == record update of order  
+      // #2
+      row++;
+    }
+  }
+  
+  
+  free(visited);
+  return subnets;
 }

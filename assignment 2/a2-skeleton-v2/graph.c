@@ -122,11 +122,21 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   initaliseSolution(solution);
   if(part == TASK_2){
     /* IMPLEMENT TASK 2 SOLUTION HERE */
-    solution->connectedSubnets = dfs(g);
+    solution->connectedSubnets = dfsTask2(g);
   } else if(part == TASK_3) {
     /* IMPLEMENT TASK 3 SOLUTION HERE */
-    solution->largestSubnet = 0;
+    // #3 compare if there are two same size subnetworks
+    if (1) {
+      // same size, update largest Subnetwork number
+      solution->largestSubnet = 0;
+      // same size, updatte largest Subnetwork
+      solution->largestSubnetSIDs = NULL;
+    } else { 
+      // not same size, update largest Subnetwork number
+      solution->largestSubnet = 0;
+      // not same size, updatte largest Subnetwork
     solution->largestSubnetSIDs = NULL;
+    }
   } else if(part == TASK_4) {
     /* IMPLEMENT TASK 4 SOLUTION HERE */
     solution->postOutageDiameter = 0;
@@ -173,6 +183,6 @@ int graph_get_neighbours(struct graph *graph, int u, int *neighbours, int n) {
   free_list_iterator(neighbour_iterator);
 
   // #1 sort order of neighbours;
-  
+  neighbours = quicksort(neighbours, n);
   return i;
 }
