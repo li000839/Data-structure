@@ -96,6 +96,7 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
   int **subnets = NULL;
   int *subnet = NULL;
   int allocedSubnet = 0;
+  int allocedSize = 0;
   int numUpdate = 0;
   int formerVisited = 0;
 
@@ -126,14 +127,13 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
 
       // record size of subnet
       /* Check we have enough space for the size of subnet. */
-      allocedSubnet = 0;
-      if((connected_subnetworks) > allocedSubnet){
-        if(allocedSubnet == 0){
-          allocedSubnet = INITIALSUBNETS;
+      if((connected_subnetworks) > allocedSize){
+        if(allocedSize == 0){
+          allocedSize = INITIALSUBNETS;
         } else {
-          (allocedSubnet) *= 2;
+          (allocedSize) *= 2;
         }
-        subnetSize = (int *) realloc(subnetSize, sizeof(int) * allocedSubnet);
+        subnetSize = (int *) realloc(subnetSize, sizeof(int) * allocedSize);
         assert(subnetSize);
       }
       subnetSize[connected_subnetworks - 1] = numUpdate;

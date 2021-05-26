@@ -126,7 +126,7 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   } else if(part == TASK_3) {
     /* IMPLEMENT TASK 3 SOLUTION HERE */
     // compare if there are two same size subnetworks
-    int *subnetSize = NULL;
+    int *subnetSize = malloc(sizeof(int));
     int **subnets = dfsTask3(g, subnetSize);
     solution->connectedSubnets = dfsTask2(g);
 

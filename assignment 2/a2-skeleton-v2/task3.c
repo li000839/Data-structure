@@ -28,6 +28,8 @@ int main(int argc, char **argv){
   /* Find the solution to the problem. */
   struct solution *solution = findSolution(problem, TASK_3);
 
+  printf("solution->largestSubnet is %d\n", solution->largestSubnet);
+
   /* Report solution */
   printf("Before the outage, the number of servers in the largest subnetwork is"
          ": %d\n", solution->largestSubnet);
