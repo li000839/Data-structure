@@ -43,7 +43,7 @@ void bfs_explore(GraphForTask2 *graph, int u, int *order, bool *visited, int *n_
 // visits the nodes in the graph.
 //
 // The resultant array will be of size n_vertices and must be freed after use.
-int *dfs(GraphForTask2 *graph) {
+int dfs(GraphForTask2 *graph) {
   int n = graph_num_vertices(graph);
   int *order = malloc(sizeof(int) * n);
   assert(order);
@@ -52,15 +52,17 @@ int *dfs(GraphForTask2 *graph) {
   assert(visited);
 
   int n_visited = 0;
+  int connected_subnetworks = 0;
 
   for (int u = 0; u < n; u++) {
     if (!visited[u]) {
+      connected_subnetworks++;
       dfs_explore(graph, u, order, visited, &n_visited);
     }
   }
 
   free(visited);
-  return order;
+  return connected_subnetworks;
 }
 
 // Recursive explore function which explores from node u in the graph.

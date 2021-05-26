@@ -33,7 +33,7 @@ bool graph_are_adjacent(GraphForTask2 *graph, int u, int v);
 // Stores the weights in the weights array.
 // Gives an error if the size of the array provided (n) is less than the number
 // of vertices.
-int graph_get_neighbours(GraphForTask2 *graph, int u, int *neighbours, int *weights, int n);
+int graph_get_neighbours(GraphForTask2 *graph, int u, int *neighbours, int n);
 
 // Get the number of vertices in the graph
 int graph_num_vertices(GraphForTask2 *graph);

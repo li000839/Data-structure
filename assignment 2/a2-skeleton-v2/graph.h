@@ -7,16 +7,23 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021 and
   modified for Assignment 2 2021
 */
 
-/* Definition of a graph. */
-struct graph;
+#ifndef GRAPH_H
+#define GRAPH_H
 
+/* Definition of a graph. */
+struct edge;
+
+struct graph;
+#endif
+
+#ifndef SOLUTION_H
+#define SOLUTION_H
 enum problemPart;
 
 struct solution;
 
 /* A particular solution to a graph problem. */
-#ifndef SOLUTION_STRUCT
-#define SOLUTION_STRUCT
+
 struct solution {
   int connectedSubnets;
   int largestSubnet;
@@ -27,18 +34,17 @@ struct solution {
   int criticalServerCount;
   int *criticalServerSIDs;
 };
-#endif
+
 
 /* Which part the program should find a solution for. */
-#ifndef PART_ENUM
-#define PART_ENUM
+
 enum problemPart {
   TASK_2=0,
   TASK_3=1,
   TASK_4=2,
   TASK_7=3
 };
-#endif
+
 
 /* Creates an undirected graph with the given numVertices and no edges and
 returns a pointer to it. NumEdges is the number of expected edges. */
@@ -71,5 +77,18 @@ void initaliseSolution(struct solution *solution);
 /* Frees all data used by solution. */
 void freeSolution(struct solution *solution);
 
+// Get the number of vertices in the graph
+int graph_num_vertices(struct graph *graph);
+
+// Get the out degree of a given node in the graph (i.e., number of out
+// edges from this node).
+int graph_out_degree(struct graph *graph, int start);
+
+// Saves the indices of u's neighbours in the neighbours array and returns
+// the number of neighbours stored.
+// Gives an error if the size of the array provided (n) is less than the number
+// of vertices.
+int graph_get_neighbours(struct graph *graph, int u, int *neighbours, int n);
 
 
+#endif

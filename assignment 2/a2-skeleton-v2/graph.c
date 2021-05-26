@@ -7,12 +7,16 @@ Implementations for helper functions for graph construction and manipulation.
 
 Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
 */
+#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <limits.h>
+
 #include "graph.h"
 #include "utils.h"
 #include "pq.h"
+#include "list.h"
+#include "grahalgs.h"
 
 #define INITIALEDGES 32
 
@@ -24,6 +28,7 @@ struct graph {
   int numEdges;
   int allocedEdges;
   struct edge **edgeList;
+  struct list **vertices;   // Array of adjacency Lists
 };
 
 /* Definition of an edge. */
@@ -39,6 +44,13 @@ struct graph *newGraph(int numVertices){
   g->numVertices = numVertices;
   g->numEdges = 0;
   g->allocedEdges = 0;
+
+  g->vertices = malloc(sizeof(struct list *) * numVertices);
+  assert(g->vertices);
+  for (int i = 0; i < numVertices; i++) {
+    g->vertices[i] = new_list();
+  }
+
   g->edgeList = NULL;
   return g;
 }
@@ -68,6 +80,13 @@ void addEdge(struct graph *g, int start, int end){
   /* Add the edge to the list of edges. */
   g->edgeList[g->numEdges] = newEdge;
   (g->numEdges)++;
+
+  assert(g != NULL);
+  // Assert that u and v are valid indices
+  assert(start >= 0 && start < g->numVertices);
+  assert(end >= 0 && end < g->numVertices);
+   
+  list_add_end(g->vertices[start], end);
 }
 
 /* Frees all memory used by graph. */
@@ -102,7 +121,7 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   initaliseSolution(solution);
   if(part == TASK_2){
     /* IMPLEMENT TASK 2 SOLUTION HERE */
-    solution->connectedSubnets = 0;
+    solution->connectedSubnets = dfs(g);
   } else if(part == TASK_3) {
     /* IMPLEMENT TASK 3 SOLUTION HERE */
     solution->largestSubnet = 0;
@@ -120,3 +139,37 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   return solution;
 }
 
+int graph_num_vertices(struct graph *graph) {
+  return graph->numVertices;
+}
+
+int graph_out_degree(struct graph *graph, int start) {
+  return list_size(graph->vertices[start]);
+}
+
+
+int graph_get_neighbours(struct graph *graph, int u, int *neighbours, int n) {
+  assert(graph != NULL);
+  assert(neighbours != NULL);
+
+  struct list *adjacentcy_list = graph->vertices[u];
+
+  // There's only room for n vertex indices in the array neighbours, so if
+  // u has more neighbours than this then print an error
+  if (list_size(adjacentcy_list) > n) {
+    fprintf(stderr,
+      "Error: graph_get_neighbours() not provided with a big enough array\n");
+    exit(EXIT_FAILURE);
+  }
+
+  // Note: We added the ListIterator type for this purpose
+  ListIterator *neighbour_iterator = new_list_iterator(adjacentcy_list);
+  int i = 0;
+  while (list_iterator_has_next(neighbour_iterator)) {
+    neighbours[i] = list_iterator_next(neighbour_iterator);
+    i++;
+  }
+  free_list_iterator(neighbour_iterator);
+
+  return i;
+}

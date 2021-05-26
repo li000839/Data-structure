@@ -1,25 +1,56 @@
-/*
-list.h
+#ifndef LIST_H
+#define LIST_H
 
-Visible structs and functions for linked lists.
+#include <stdbool.h>
 
-Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 1 2021
-*/
-/* The linked list. */
-struct list;
+typedef struct list List;
 
-/* Get a new empty list. */
-struct list *newlist(void *item);
+typedef struct list_iterator ListIterator;
 
-/* Add an item to the head of the list. Returns the new list. */
-struct list *prependList(struct list *list, void *item);
+// create a new list and return its pointer
+List *new_list();
 
-/* Gets the first item from the list. */
-void *peekHead(struct list *list);
+// destroy a list and free its memory
+void free_list(List *list);
 
-/* Takes the first item from the list, updating the list pointer and returns
-  the item stored. */
-void *deleteHead(struct list **list);
+// add an element to the front of a list
+// this operation is O(1)
+void list_add_start(List *list, int data);
 
-/* Free all list items. */
-void freeList(struct list *list);
+// add an element to the back of a list
+// this operation is O(1)
+void list_add_end(List *list, int data);
+
+// remove and return the front data element from a list
+// this operation is O(1)
+// error if the list is empty (so first ensure list_size() > 0)
+int list_remove_start(List *list);
+
+// remove and return the final data element in a list
+// this operation is O(n), where n is the number of elements in the list
+// error if the list is empty (so first ensure list_size() > 0)
+int list_remove_end(List *list);
+
+// return the number of elements contained in a list
+int list_size(List *list);
+
+// returns whether the list contains no elements (true) or some elements (false)
+bool list_is_empty(List *list);
+
+// returns whether the list contains the specified element.
+// this operation is O(n)
+bool list_contains(List *list, int element);
+
+// returns a new iterator
+ListIterator *new_list_iterator(List *list);
+
+// frees the list iterator
+void free_list_iterator(ListIterator *iterator);
+
+// whether or not there are elements remaining to be iterated through
+bool list_iterator_has_next(ListIterator *iterator);
+
+// get's the next element in the list
+int list_iterator_next(ListIterator *iterator);
+
+#endif

@@ -15,7 +15,7 @@
 // visits the nodes in the graph.
 //
 // The resultant array will be of size n_vertices and must be freed after use.
-int *dfs(GraphForTask2 *graph);
+int dfs(GraphForTask2 *graph);
 
 // Runs a breadth first search on the given graph, returning a dynamically
 // allocated array of integers representing the order in which the DFS

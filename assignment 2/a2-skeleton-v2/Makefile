@@ -1,38 +1,46 @@
 # Build targets
 # lm - link math library library. required if you use math.h functions (commonly
 # linked by default on mac).
-task2: task2.o utils.o graph.o pq.o list.o
-	gcc -Wall -o task2 -g task2.o utils.o graph.o pq.o list.o -lm
+
+# specifying the C Compiler and Compiler Flags for make to use
+CC     = gcc
+CFLAGS = -Wall -Wno-comment -std=c99 -g
+
+task2: task2.o utils.o graph.o pq.o list.o grahalgs.o
+	$(CC) $(CFLAGS) -o task2 task2.o utils.o graph.o pq.o list.o grahalgs.o -lm
 
 task3: task3.o utils.o graph.o pq.o list.o
-	gcc -Wall -o task3 -g task3.o utils.o graph.o pq.o list.o -lm
+	$(CC) $(CFLAGS) -o task3 task3.o utils.o graph.o pq.o list.o -lm
 
 task4: task4.o utils.o graph.o pq.o list.o
-	gcc -Wall -o task4 -g task4.o utils.o graph.o pq.o list.o -lm
+	$(CC) $(CFLAGS) -o task4 task4.o utils.o graph.o pq.o list.o -lm
 
 task7: task7.o utils.o graph.o pq.o list.o
-	gcc -Wall -o task7 -g task7.o utils.o graph.o pq.o list.o -lm
+	$(CC) $(CFLAGS) -o task7 task7.o utils.o graph.o pq.o list.o -lm
 
 task2.o: task2.c graph.h utils.h
-	gcc -c task2.c -Wall -g
+	$(CC) $(CFLAGS) -c task2.c
 
 task3.o: task3.c graph.h utils.h
-	gcc -c task3.c -Wall -g
+	$(CC) $(CFLAGS) -c task3.c
 
 task4.o: task4.c graph.h utils.h
-	gcc -c task4.c -Wall -g
+	$(CC) $(CFLAGS) -c task4.c
 
 task7.o: task7.c graph.h utils.h
-	gcc -c task7.c -Wall -g
+	$(CC) $(CFLAGS) -c task7.c
 
 utils.o: utils.c utils.h graph.h
-	gcc -c utils.c -Wall -g
+	$(CC) $(CFLAGS) -c utils.c
 
 graph.o: graph.c graph.h pq.h utils.h
-	gcc -c graph.c -Wall -g
+	$(CC) $(CFLAGS) -c graph.c
 
 pq.o: pq.c pq.h
-	gcc -c pq.c -Wall -g
+	$(CC) $(CFLAGS) -c pq.c
 
 list.o: list.c list.h
-	gcc -c list.c -Wall -g
+	$(CC) $(CFLAGS) -c list.c
+
+grahalgs.o: grahalgs.c grahalgs.h graph.h
+	$(CC) $(CFLAGS) -c grahalgs.c
