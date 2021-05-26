@@ -15,11 +15,8 @@ struct edge;
 
 struct graph;
 
-struct subset;
-#endif
+struct subnet;
 
-#ifndef SOLUTION_H
-#define SOLUTION_H
 enum problemPart;
 
 struct solution;

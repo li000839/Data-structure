@@ -3,15 +3,21 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "debug.h"
+#include "graph.h"
 #include "grahalgs.h"
 #include "list.h"
-#include "graph.h"
+
 
 
 #define INFTY -1
 #define NO_PREV -1
 #define INITIALSUBNETS 2
+
+struct subnet {
+  int *subnetSize;
+  int **subnetsComponent;
+};
+
 
 // Runs a depth first search on the given graph, returning a dynamically
 // allocated array of integers representing the order in which the DFS
@@ -20,10 +26,10 @@
 // The resultant array will be of size n_vertices and must be freed after use.
 int dfsTask2(struct graph *graph) {
   int n = graph_num_vertices(graph);
-  int *order = malloc(sizeof(int) * n);
+  int *order = (int *)malloc(sizeof(int) * n);
   assert(order);
   // Use calloc to allocate and set all memory to 0
-  bool *visited = calloc(n, sizeof(bool));
+  bool *visited = (bool *)calloc(n, sizeof(bool));
   assert(visited);
 
   int n_visited = 0;
@@ -54,7 +60,8 @@ void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_v
 
   // Create an array to hold the neighbors of u
   int n_neighbours = graph_out_degree(graph, u);
-  int *neighbours = malloc(sizeof(int) * n_neighbours);
+  int *neighbours = (int *)malloc(sizeof(int) * n_neighbours);
+  assert(neighbours);
   // Retrieve these neighbours from the graph
   graph_get_neighbours(graph, u, neighbours, n_neighbours);
 
@@ -83,15 +90,15 @@ int *quicksort(int *neighbours, int n_neighbours) {
 }
 
 struct subnet *dfsTask3(struct graph *graph) {
-  struct subnet *subnets = malloc(sizeof(struct subset*));
+  struct subnet *subnets = (struct subnet *)malloc(sizeof(struct subnet*));
   assert(subnets);
   int *subnetSize = NULL;
   
   int n = graph_num_vertices(graph);
-  int *order = malloc(sizeof(int) * n);
+  int *order = (int *)malloc(sizeof(int) * n);
   assert(order);
   // Use calloc to allocate and set all memory to 0
-  bool *visited = calloc(n, sizeof(bool));
+  bool *visited = (bool *)calloc(n, sizeof(bool));
   assert(visited);
 
   int n_visited = 0;
@@ -159,8 +166,12 @@ struct subnet *dfsTask3(struct graph *graph) {
 }
 
 
-int *LargestSubnetwork(int **subnets, int *subnetSize, int connectedSubnets) {
+int *LargestSubnetwork(struct subnet *sub, struct solution *sol) {
   // get top two size
+  int **subnets = sub->subnetsComponent;
+  int *subnetSize = sub->subnetSize;
+  int connectedSubnets = sol->connectedSubnets;
+
   int largest = subnetSize[0];
   int secondLargest = largest;
   for (int i = 0; i < connectedSubnets; i++) {
@@ -185,17 +196,15 @@ int *LargestSubnetwork(int **subnets, int *subnetSize, int connectedSubnets) {
   }
 }
 
-int sizeLargestSubnetwork(int *subnetSize, int connectedSubnets) {
+int sizeLargestSubnetwork(struct subnet *sub, struct solution *sol) {
   // get largest size
-  printf("connectedSubnets is %d\n", connectedSubnets);
-  printf("subnetSize[0] is %d\n", subnetSize[0]);
-  printf("subnetSize[1] is %d\n", subnetSize[1]);
+  int *subnetSize = sub->subnetSize;
+  int connectedSubnets = sol->connectedSubnets;
   int largest = 0;
   for (int i = 0; i < connectedSubnets; i++) {
     if (subnetSize[i] > largest) {
       largest = subnetSize[i];
     }
   }
-  printf("largest is %d\n", largest);
   return largest;
 }

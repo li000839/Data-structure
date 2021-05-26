@@ -37,11 +37,11 @@ struct edge {
   int end;
 };
 
+/* Definition of an subnetwork. */
 struct subnet {
   int *subnetSize;
   int **subnetsComponent;
 };
-
 
 struct graph *newGraph(int numVertices){
   struct graph *g = (struct graph *) malloc(sizeof(struct graph));
@@ -132,15 +132,10 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
   } else if(part == TASK_3) {
     /* IMPLEMENT TASK 3 SOLUTION HERE */
     // compare if there are two same size subnetworks
-    struct subnet *subnets = dfsTask3(g);
     solution->connectedSubnets = dfsTask2(g);
-
-
-    solution->largestSubnet = sizeLargestSubnetwork((subnets->subnetSize), solution->connectedSubnets);
-    printf("solution->largestSubnet is %d\n", sizeLargestSubnetwork(subnets->subnetSize, solution->connectedSubnets));
-
-
-    solution->largestSubnetSIDs = LargestSubnetwork(subnets->subnetsComponent, subnets->subnetSize, solution->connectedSubnets);
+    struct subnet *subnets = dfsTask3(g);
+    solution->largestSubnet = sizeLargestSubnetwork(subnets, solution);
+    solution->largestSubnetSIDs = LargestSubnetwork(subnets, solution);
   } else if(part == TASK_4) {
     /* IMPLEMENT TASK 4 SOLUTION HERE */
     solution->postOutageDiameter = 0;
