@@ -172,27 +172,32 @@ int *LargestSubnetwork(struct subnet *sub, struct solution *sol) {
   int *subnetSize = sub->subnetSize;
   int connectedSubnets = sol->connectedSubnets;
 
-  int largest = subnetSize[0];
-  int secondLargest = largest;
+  int largestSize = subnetSize[0];
+  int secondLargestSize = largestSize;
+  int largestIndex = 0;
+  int secondIndex = 0;
   for (int i = 0; i < connectedSubnets; i++) {
-    if (subnetSize[i] > largest) {
-      secondLargest = largest;
-      largest = subnetSize[i];
+    if (subnetSize[i] > largestSize) {
+      secondIndex = largestIndex;
+      largestIndex = i;
+      secondLargestSize = largestSize;
+      largestSize = subnetSize[largestIndex];
     }
   }
+
   // compare two size
-  if (largest == secondLargest) {
+  if (largestSize == secondLargestSize) {
     // two same size, find smallest SIDs
-    int firstSmallestSID = subnets[largest][0];
-    int secondSmallestSID = subnets[secondLargest][0];
+    int firstSmallestSID = subnets[largestIndex][0];
+    int secondSmallestSID = subnets[secondIndex][0];
     if (firstSmallestSID > secondSmallestSID) {
-      return subnets[largest];
+      return subnets[largestIndex];
     } else {
-      return subnets[secondLargest];
+      return subnets[secondIndex];
     }
   } else {
     // not same size, find largest size
-    return subnets[largest];
+    return subnets[largestIndex];
   }
 }
 
