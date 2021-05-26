@@ -127,17 +127,11 @@ struct solution *graphSolve(struct graph *g, enum problemPart part,
     /* IMPLEMENT TASK 3 SOLUTION HERE */
     // compare if there are two same size subnetworks
     int *subnetSize = NULL;
-    if (1) {
-      // same size, update largest Subnetwork number
-      solution->largestSubnet = 0;
-      // same size, updatte largest Subnetwork
-      solution->largestSubnetSIDs = dfsTask3(g)[0];
-    } else { 
-      // not same size, update largest Subnetwork number
-      solution->largestSubnet = 0;
-      // not same size, updatte largest Subnetwork
-    solution->largestSubnetSIDs = dfsTask3(g)[0];
-    }
+    int **subnets = dfsTask3(g, subnetSize);
+    solution->connectedSubnets = dfsTask2(g);
+
+    solution->largestSubnet = sizeLargestSubnetwork(subnetSize, solution->connectedSubnets);
+    solution->largestSubnetSIDs = LargestSubnetwork(subnets, subnetSize, solution->connectedSubnets);
   } else if(part == TASK_4) {
     /* IMPLEMENT TASK 4 SOLUTION HERE */
     solution->postOutageDiameter = 0;

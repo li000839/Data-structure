@@ -11,5 +11,8 @@ void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_v
 
 int *quicksort(int *neighbours, int n_neighbours);
 
+int *LargestSubnetwork(int **subnets, int *subnetSize, int connectedSubnets);
+
+int sizeLargestSubnetwork(int *subnetSize, int connectedSubnets);
 
 #endif

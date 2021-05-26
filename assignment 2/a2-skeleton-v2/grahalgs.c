@@ -126,6 +126,7 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
 
       // record size of subnet
       /* Check we have enough space for the size of subnet. */
+      allocedSubnet = 0;
       if((connected_subnetworks) > allocedSubnet){
         if(allocedSubnet == 0){
           allocedSubnet = INITIALSUBNETS;
@@ -152,6 +153,39 @@ int **dfsTask3(struct graph *graph, int *subnetSize) {
 }
 
 
-int *compareSize(int **subnets, int *subnetSize, int connectedSubnets) {
-  
+int *LargestSubnetwork(int **subnets, int *subnetSize, int connectedSubnets) {
+  // get top two size
+  int largest = subnetSize[0];
+  int secondLargest = largest;
+  for (int i = 0; i < connectedSubnets; i++) {
+    if (subnetSize[i] > largest) {
+      secondLargest = largest;
+      largest = subnetSize[i];
+    }
+  }
+  // compare two size
+  if (largest == secondLargest) {
+    // two same size, find smallest SIDs
+    int firstSmallestSID = subnets[largest][0];
+    int secondSmallestSID = subnets[secondLargest][0];
+    if (firstSmallestSID > secondSmallestSID) {
+      return subnets[largest];
+    } else {
+      return subnets[secondLargest];
+    }
+  } else {
+    // not same size, find largest size
+    return subnets[largest];
+  }
+}
+
+int sizeLargestSubnetwork(int *subnetSize, int connectedSubnets) {
+  // get largest size
+  int largest = subnetSize[0];
+  for (int i = 0; i < connectedSubnets; i++) {
+    if (subnetSize[i] > largest) {
+      largest = subnetSize[i];
+    }
+  }
+  return largest;
 }
