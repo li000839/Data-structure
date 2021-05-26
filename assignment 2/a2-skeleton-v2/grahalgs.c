@@ -31,9 +31,25 @@ int dfs(struct graph *graph) {
   for (int u = 0; u < n; u++) {
     if (!visited[u]) {
       connected_subnetworks++;
+      // record traversal of each loop == record update of order
+      // #2
       dfs_explore(graph, u, order, visited, &n_visited);
     }
   }
+
+  // #3 compare if there are two same size subnetworks
+  if (//) {
+    // same size, update largest Subnetwork number
+    solution->largestSubnet = 0;
+    // same size, updatte largest Subnetwork
+    solution->largestSubnetSIDs;
+  } else { 
+    // not same size, update largest Subnetwork number
+    solution->largestSubnet = 0;
+    // not same size, updatte largest Subnetwork
+  solution->largestSubnetSIDs;
+  }
+
   free(visited);
   return connected_subnetworks;
 }
@@ -64,4 +80,17 @@ void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_v
   }
 
   free(neighbours);
+}
+
+int *quicksort(int *neighbours) {
+  for (int i = 1; i < n;; i++) {
+    int temp = neighbours[i];
+    int j = i - 1;
+    while (j >= 0 && temp < neighbours[j]) {
+      neighbours[j + 1] = neighbours[j];
+      j = j--;
+    }
+    neighbours[j + 1] = temp;
+  }
+  return neighbours;
 }

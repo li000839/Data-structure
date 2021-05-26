@@ -172,5 +172,7 @@ int graph_get_neighbours(struct graph *graph, int u, int *neighbours, int n) {
   }
   free_list_iterator(neighbour_iterator);
 
+  // #1 sort order of neighbours;
+  
   return i;
 }
