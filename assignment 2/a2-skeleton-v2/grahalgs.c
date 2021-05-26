@@ -11,6 +11,7 @@
 
 #define INFTY -1
 #define NO_PREV -1
+#define INITIALSUBNETS 2
 
 // Runs a depth first search on the given graph, returning a dynamically
 // allocated array of integers representing the order in which the DFS
@@ -82,7 +83,7 @@ int *quicksort(int *neighbours, int n_neighbours) {
   return neighbours;
 }
 
-int **dfsTask3(struct graph *graph) {
+int **dfsTask3(struct graph *graph, int *subnetSize) {
   int n = graph_num_vertices(graph);
   int *order = malloc(sizeof(int) * n);
   assert(order);
@@ -92,24 +93,65 @@ int **dfsTask3(struct graph *graph) {
 
   int n_visited = 0;
   int connected_subnetworks = 0;
+  int **subnets = NULL;
+  int *subnet = NULL;
+  int allocedSubnet = 0;
+  int numUpdate = 0;
+  int formerVisited = 0;
 
-  int row = 0;
-  int col = 1;
-  int **subnets = (int**)malloc(sizeof(int*) * row);  
-  for (i = 0;i < row;i++) {
-    subnets[i] = (int*)malloc(sizeof(int) * col);
-  }
   for (int u = 0; u < n; u++) {
     if (!visited[u]) {
       connected_subnetworks++;
       dfs_explore(graph, u, order, visited, &n_visited);
-      // record traversal of each loop == record update of order  
-      // #2
-      row++;
+      /* Check we have enough space for the new subnet. */
+      if((connected_subnetworks) > allocedSubnet){
+        if(allocedSubnet == 0){
+          allocedSubnet = INITIALSUBNETS;
+        } else {
+          (allocedSubnet) *= 2;
+        }
+        subnets = (int **) realloc(subnets, sizeof(int *) * allocedSubnet);
+        assert(subnets);
+      }
+
+      // record one subnet = record update of order
+      numUpdate = n_visited - formerVisited;
+      subnet = (int *) realloc(subnet, sizeof(int) * numUpdate);
+      assert(subnet);
+
+      /* Copy updated part from order, create the subnet */
+      for (int j = 0; j < numUpdate; j++) {
+        subnet[j] = order[j + formerVisited];
+      }
+
+      // record size of subnet
+      /* Check we have enough space for the size of subnet. */
+      if((connected_subnetworks) > allocedSubnet){
+        if(allocedSubnet == 0){
+          allocedSubnet = INITIALSUBNETS;
+        } else {
+          (allocedSubnet) *= 2;
+        }
+        subnetSize = (int *) realloc(subnetSize, sizeof(int) * allocedSubnet);
+        assert(subnetSize);
+      }
+      subnetSize[connected_subnetworks - 1] = numUpdate;
+
+
+      // update formerVisited
+      formerVisited = n_visited;
+
+      /* sort and add the subnet to the subnets. */
+      subnet = quicksort(subnet, numUpdate);
+      subnets[connected_subnetworks - 1] = subnet;
     }
   }
   
-  
   free(visited);
   return subnets;
+}
+
+
+int *compareSize(int **subnets, int *subnetSize, int connectedSubnets) {
+  
 }

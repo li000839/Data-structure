@@ -5,7 +5,7 @@
 
 int dfsTask2(struct graph *graph);
 
-int **dfsTask3(struct graph *graph);
+int **dfsTask3(struct graph *graph, int *subnetSize);
 
 void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_visited);
 
