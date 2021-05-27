@@ -44,7 +44,12 @@ int dfsTask2(struct graph *graph) {
     }
   }
 
-  free(visited);
+  if (!order) {
+    free(order);
+  }
+  if (!visited) {
+    free(visited);
+  }
   return connected_subnetworks;
 }
 
@@ -73,8 +78,9 @@ void dfs_explore(struct graph *graph, int u, int *order, bool *visited, int *n_v
       dfs_explore(graph, v, order, visited, n_visited);
     }
   }
-
-  free(neighbours);
+  if (!visited) {
+    free(neighbours);
+  }
 }
 
 int *quicksort(int *neighbours, int n_neighbours) {
@@ -161,9 +167,22 @@ struct subnet *dfsTask3(struct graph *graph) {
   
   subnets->subnetSize = subSize;
   subnets->subnetsComponent = subComponent;
-  free(subSize);
-  free(subComponent);
-  free(visited);
+  
+  if (!order) {
+    free(order);
+  }
+  if (!visited) {
+    free(visited);
+  }
+  if (!subComponent) {
+    free(subComponent);
+  }
+  if (!oneSubnetComponent) {
+    free(oneSubnetComponent);
+  }
+  if (!subSize) {
+    free(subSize);
+  }
   return subnets;
 }
 

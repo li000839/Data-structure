@@ -13,7 +13,7 @@ Skeleton written by Grady Fitzpatrick for COMP20007 Assignment 2 2021
 
 int main(int argc, char **argv){
   if(argc < 2){
-    fprintf(stderr, "Run in the form %s tests/network-t3-1 < outage-t3-1.txt\n",
+    fprintf(stderr, "Run in the form %s tests/network-t7-1 < outage-t7-1.txt\n",
       argv[0]);
     exit(EXIT_FAILURE);
   }
@@ -22,18 +22,16 @@ int main(int argc, char **argv){
   assert(networkFile);
   struct graphProblem *problem = readProblem(stdin, networkFile);
   assert(fclose(networkFile) == 0);
- 
 
   /* Find the solution to the problem. */
-  struct solution *solution = findSolution(problem, TASK_3);
+  struct solution *solution = findSolution(problem, TASK_7);
 
   /* Report solution */
-  printf("Before the outage, the number of servers in the largest subnetwork is: %d\n", solution->largestSubnet);
-  printf("The servers in the largest subnetwork are: ");
+  printf("The critical servers are: ");
   int i;
-  for(i = 0; i < solution->largestSubnet; i++){
-    printf("%d", (solution->largestSubnetSIDs)[i]);
-    if((i + 1) < solution->largestSubnet){
+  for(i = 0; i < solution->criticalServerCount; i++){
+    printf("%d", (solution->criticalServerSIDs)[i]);
+    if((i + 1) < solution->criticalServerCount){
       printf(" ");
     }
   }
